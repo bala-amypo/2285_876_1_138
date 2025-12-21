@@ -1,58 +1,60 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "access_logs")
-public class AccessLog {
+@Table(name = "digital_keys", uniqueConstraints = @UniqueConstraint(columnNames = "keyValue"))
+public class DigitalKey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "digital_key_id")
+    @JoinColumn(name = "booking_id")
     @NotNull
-    private DigitalKey digitalKey;
+    private RoomBooking booking;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "guest_id")
+    @NotBlank
+    @Column(unique = true)
+    private String keyValue;
+
     @NotNull
-    private Guest guest;
+    private Timestamp issuedAt;
 
     @NotNull
-    private Timestamp accessTime;
+    private Timestamp expiresAt;
 
-    private String result;
-    private String reason;
+    private Boolean active = true;
 
-    public AccessLog() {}
+    public DigitalKey() {}
 
-    public AccessLog(DigitalKey digitalKey, Guest guest, Timestamp accessTime, String result, String reason) {
-        this.digitalKey = digitalKey;
-        this.guest = guest;
-        this.accessTime = accessTime;
-        this.result = result;
-        this.reason = reason;
+    public DigitalKey(RoomBooking booking, String keyValue, Timestamp issuedAt, Timestamp expiresAt, Boolean active) {
+        this.booking = booking;
+        this.keyValue = keyValue;
+        this.issuedAt = issuedAt;
+        this.expiresAt = expiresAt;
+        this.active = active != null ? active : true;
     }
 
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public DigitalKey getDigitalKey() { return digitalKey; }
-    public void setDigitalKey(DigitalKey digitalKey) { this.digitalKey = digitalKey; }
+    public RoomBooking getBooking() { return booking; }
+    public void setBooking(RoomBooking booking) { this.booking = booking; }
 
-    public Guest getGuest() { return guest; }
-    public void setGuest(Guest guest) { this.guest = guest; }
+    public String getKeyValue() { return keyValue; }
+    public void setKeyValue(String keyValue) { this.keyValue = keyValue; }
 
-    public Timestamp getAccessTime() { return accessTime; }
-    public void setAccessTime(Timestamp accessTime) { this.accessTime = accessTime; }
+    public Timestamp getIssuedAt() { return issuedAt; }
+    public void setIssuedAt(Timestamp issuedAt) { this.issuedAt = issuedAt; }
 
-    public String getResult() { return result; }
-    public void setResult(String result) { this.result = result; }
+    public Timestamp getExpiresAt() { return expiresAt; }
+    public void setExpiresAt(Timestamp expiresAt) { this.expiresAt = expiresAt; }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
