@@ -13,49 +13,49 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleResourceNotFound(ResourceNotFoundException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", false);
-        response.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
+        public ResponseEntity<Map<String, Object>> handleResourceNotFound(ResourceNotFoundException ex) {
+                Map<String, Object> response = new HashMap<>();
+                        response.put("success", false);
+                                response.put("message", ex.getMessage());
+                                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                                            }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", false);
-        response.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
+                                                @ExceptionHandler(IllegalArgumentException.class)
+                                                    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+                                                            Map<String, Object> response = new HashMap<>();
+                                                                    response.put("success", false);
+                                                                            response.put("message", ex.getMessage());
+                                                                                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+                                                                                        }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalState(IllegalStateException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", false);
-        response.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-    }
+                                                                                            @ExceptionHandler(IllegalStateException.class)
+                                                                                                public ResponseEntity<Map<String, Object>> handleIllegalState(IllegalStateException ex) {
+                                                                                                        Map<String, Object> response = new HashMap<>();
+                                                                                                                response.put("success", false);
+                                                                                                                        response.put("message", ex.getMessage());
+                                                                                                                                return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+                                                                                                                                    }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, Object> response = new HashMap<>();
-        Map<String, String> errors = new HashMap<>();
-        
-        ex.getBindingResult().getFieldErrors().forEach(error -> 
-            errors.put(error.getField(), error.getDefaultMessage())
-        );
-        
-        response.put("success", false);
-        response.put("message", "Validation failed");
-        response.put("errors", errors);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
+                                                                                                                                        @ExceptionHandler(MethodArgumentNotValidException.class)
+                                                                                                                                            public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+                                                                                                                                                    Map<String, Object> response = new HashMap<>();
+                                                                                                                                                            Map<String, String> errors = new HashMap<>();
+                                                                                                                                                                    
+                                                                                                                                                                            ex.getBindingResult().getFieldErrors().forEach(error -> 
+                                                                                                                                                                                        errors.put(error.getField(), error.getDefaultMessage())
+                                                                                                                                                                                                );
+                                                                                                                                                                                                        
+                                                                                                                                                                                                                response.put("success", false);
+                                                                                                                                                                                                                        response.put("message", "Validation failed");
+                                                                                                                                                                                                                                response.put("errors", errors);
+                                                                                                                                                                                                                                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+                                                                                                                                                                                                                                            }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", false);
-        response.put("message", "Internal server error");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-    }
-}
+                                                                                                                                                                                                                                                @ExceptionHandler(Exception.class)
+                                                                                                                                                                                                                                                    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
+                                                                                                                                                                                                                                                            Map<String, Object> response = new HashMap<>();
+                                                                                                                                                                                                                                                                    response.put("success", false);
+                                                                                                                                                                                                                                                                            response.put("message", "Internal server error");
+                                                                                                                                                                                                                                                                                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                        }
