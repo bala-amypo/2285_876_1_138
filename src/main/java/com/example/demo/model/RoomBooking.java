@@ -1,84 +1,73 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "key_share_requests")
-public class KeyShareRequest {
+@Table(name = "room_bookings")
+public class RoomBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "digital_key_id")
+    @JoinColumn(name = "guest_id")
     @NotNull
-    private DigitalKey digitalKey;
+    private Guest guest;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shared_by_id")
-    @NotNull
-    private Guest sharedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shared_with_id")
-    @NotNull
-    private Guest sharedWith;
+    @NotBlank
+    private String roomNumber;
 
     @NotNull
-    private Timestamp shareStart;
+    private LocalDate checkInDate;
 
     @NotNull
-    private Timestamp shareEnd;
+    private LocalDate checkOutDate;
 
-    private String status = "PENDING";
-    private Timestamp createdAt;
+    private Boolean active = true;
 
-    public KeyShareRequest() {
-        this.createdAt = Timestamp.from(Instant.now());
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "booking_roommates",
+        joinColumns = @JoinColumn(name = "booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "guest_id")
+    )
+    private Set<Guest> roommates = new HashSet<>();
 
-    public KeyShareRequest(DigitalKey digitalKey, Guest sharedBy, Guest sharedWith, Timestamp shareStart, Timestamp shareEnd, String status) {
-        this.digitalKey = digitalKey;
-        this.sharedBy = sharedBy;
-        this.sharedWith = sharedWith;
-        this.shareStart = shareStart;
-        this.shareEnd = shareEnd;
-        this.status = status != null ? status : "PENDING";
-        this.createdAt = Timestamp.from(Instant.now());
-    }
+    public RoomBooking() {}
 
-    @PrePersist
-    protected void onCreate() {
-        if (createdAt == null) {
-            createdAt = Timestamp.from(Instant.now());
-        }
+    public RoomBooking(Guest guest, String roomNumber, LocalDate checkInDate, LocalDate checkOutDate, Boolean active) {
+        this.guest = guest;
+        this.roomNumber = roomNumber;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.active = active != null ? active : true;
+        this.roommates = new HashSet<>();
     }
 
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public DigitalKey getDigitalKey() { return digitalKey; }
-    public void setDigitalKey(DigitalKey digitalKey) { this.digitalKey = digitalKey; }
+    public Guest getGuest() { return guest; }
+    public void setGuest(Guest guest) { this.guest = guest; }
 
-    public Guest getSharedBy() { return sharedBy; }
-    public void setSharedBy(Guest sharedBy) { this.sharedBy = sharedBy; }
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
 
-    public Guest getSharedWith() { return sharedWith; }
-    public void setSharedWith(Guest sharedWith) { this.sharedWith = sharedWith; }
+    public LocalDate getCheckInDate() { return checkInDate; }
+    public void setCheckInDate(LocalDate checkInDate) { this.checkInDate = checkInDate; }
 
-    public Timestamp getShareStart() { return shareStart; }
-    public void setShareStart(Timestamp shareStart) { this.shareStart = shareStart; }
+    public LocalDate getCheckOutDate() { return checkOutDate; }
+    public void setCheckOutDate(LocalDate checkOutDate) { this.checkOutDate = checkOutDate; }
 
-    public Timestamp getShareEnd() { return shareEnd; }
-    public void setShareEnd(Timestamp shareEnd) { this.shareEnd = shareEnd; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public Set<Guest> getRoommates() { return roommates; }
+    public void setRoommates(Set<Guest> roommates) { this.roommates = roommates; }
 }
