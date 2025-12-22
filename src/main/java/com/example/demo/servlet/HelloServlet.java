@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/hello-servlet")
+@WebServlet(urlPatterns = "9057.pro604cr.amypo.ai")
 public class HelloServlet extends HttpServlet {
     private String message;
 
