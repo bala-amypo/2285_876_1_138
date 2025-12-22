@@ -25,7 +25,7 @@ public class Guest {
 
     @NotBlank
     private String password;
-
+        
     private Boolean verified = false;
     private Boolean active = true;
     private String role = "ROLE_USER";
