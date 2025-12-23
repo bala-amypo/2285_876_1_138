@@ -5,7 +5,6 @@ import com.example.demo.service.RoomBookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,7 +22,6 @@ public class RoomBookingController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a new booking")
     public ResponseEntity<RoomBooking> createBooking(@Valid @RequestBody RoomBooking booking) {
         return ResponseEntity.ok(roomBookingService.createBooking(booking));
@@ -42,14 +40,14 @@ public class RoomBookingController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update booking")
-    public ResponseEntity<RoomBooking> updateBooking(@PathVariable Long id, @Valid @RequestBody RoomBooking booking) {
+    public ResponseEntity<RoomBooking> updateBooking(
+            @PathVariable Long id,
+            @Valid @RequestBody RoomBooking booking) {
         return ResponseEntity.ok(roomBookingService.updateBooking(id, booking));
     }
 
     @PutMapping("/{id}/deactivate")
-    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Deactivate booking")
     public ResponseEntity<Void> deactivateBooking(@PathVariable Long id) {
         roomBookingService.deactivateBooking(id);

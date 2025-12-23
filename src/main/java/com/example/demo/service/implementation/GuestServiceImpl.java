@@ -4,7 +4,6 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Guest;
 import com.example.demo.repository.GuestRepository;
 import com.example.demo.service.GuestService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +12,9 @@ import java.util.List;
 public class GuestServiceImpl implements GuestService {
 
     private final GuestRepository guestRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public GuestServiceImpl(GuestRepository guestRepository, PasswordEncoder passwordEncoder) {
+    public GuestServiceImpl(GuestRepository guestRepository) {
         this.guestRepository = guestRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -25,7 +22,6 @@ public class GuestServiceImpl implements GuestService {
         if (guestRepository.existsByEmail(guest.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-        guest.setPassword(passwordEncoder.encode(guest.getPassword()));
         return guestRepository.save(guest);
     }
 
@@ -33,13 +29,13 @@ public class GuestServiceImpl implements GuestService {
     public Guest updateGuest(Long id, Guest guest) {
         Guest existingGuest = guestRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Guest not found"));
-        
+
         existingGuest.setFullName(guest.getFullName());
         existingGuest.setPhoneNumber(guest.getPhoneNumber());
         existingGuest.setVerified(guest.getVerified());
         existingGuest.setActive(guest.getActive());
         existingGuest.setRole(guest.getRole());
-        
+
         return guestRepository.save(existingGuest);
     }
 
