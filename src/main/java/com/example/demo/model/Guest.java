@@ -1,83 +1,35 @@
-package com.example.demo.model;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
-import java.time.Instant;
-
 @Entity
-@Table(name = "guests", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "guests")
 public class Guest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String fullName;
 
-    @NotBlank
-    @Email
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;   // ✅ ADD THIS
 
     private String phoneNumber;
 
-    @NotBlank
-    private String password;
-        
     private Boolean verified = false;
+
     private Boolean active = true;
-    private String role = "ROLE_USER";
+
+    private String role;
+
     private Timestamp createdAt;
 
-    public Guest() {
-        this.createdAt = Timestamp.from(Instant.now());
-    }
-
-    public Guest(String fullName, String email, String phoneNumber, String password, Boolean verified, Boolean active, String role, Timestamp createdAt) {
-        this.fullName = fullName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.verified = verified != null ? verified : false;
-        this.active = active != null ? active : true;
-        this.role = role != null ? role : "ROLE_USER";
-        this.createdAt = createdAt != null ? createdAt : Timestamp.from(Instant.now());
-    }
-
     @PrePersist
-    protected void onCreate() {
-        if (createdAt == null) {
-            createdAt = Timestamp.from(Instant.now());
-        }
+    public void onCreate() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-
+    // getters & setters
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
-
-    public Boolean getVerified() { return verified; }
-    public void setVerified(Boolean verified) { this.verified = verified; }
-
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
-
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
-
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
 }
