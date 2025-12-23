@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Guest;
 import com.example.demo.repository.GuestRepository;
 import com.example.demo.service.GuestService;
@@ -27,22 +26,24 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public Guest updateGuest(Long id, Guest guest) {
-        Guest existingGuest = guestRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Guest not found"));
+        Guest existing = guestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Guest not found"));
 
-        existingGuest.setFullName(guest.getFullName());
-        existingGuest.setPhoneNumber(guest.getPhoneNumber());
-        existingGuest.setVerified(guest.getVerified());
-        existingGuest.setActive(guest.getActive());
-        existingGuest.setRole(guest.getRole());
+        existing.setFullName(guest.getFullName());
+        existing.setEmail(guest.getEmail());
+        existing.setPhoneNumber(guest.getPhoneNumber());
+        existing.setPassword(guest.getPassword());
+        existing.setVerified(guest.getVerified());
+        existing.setActive(guest.getActive());
+        existing.setRole(guest.getRole());
 
-        return guestRepository.save(existingGuest);
+        return guestRepository.save(existing);
     }
 
     @Override
     public Guest getGuestById(Long id) {
         return guestRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Guest not found"));
+                .orElseThrow(() -> new RuntimeException("Guest not found"));
     }
 
     @Override
