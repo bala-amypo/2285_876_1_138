@@ -1,10 +1,25 @@
-package com.example.demo.repository;
+@RestController
+@RequestMapping("/api/guests")
+public class GuestController {
 
-import com.example.demo.model.Guest;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+    private final GuestService guestService;
 
-public interface GuestRepository extends JpaRepository<Guest, Long> {
-    Optional<Guest> findByEmail(String email);
-    boolean existsByEmail(String email);
+    public GuestController(GuestService guestService) {
+        this.guestService = guestService;
+    }
+
+    @PostMapping
+    public Guest create(@RequestBody Guest guest) {
+        return guestService.createGuest(guest);
+    }
+
+    @GetMapping("/{id}")
+    public Guest get(@PathVariable Long id) {
+        return guestService.getGuestById(id);
+    }
+
+    @GetMapping
+    public List<Guest> all() {
+        return guestService.getAllGuests();
+    }
 }

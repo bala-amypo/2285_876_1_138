@@ -1,11 +1,15 @@
-package com.example.demo.repository;
+@RestController
+@RequestMapping("/api/keys")
+public class DigitalKeyController {
 
-import com.example.demo.model.Guest;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+    private final DigitalKeyService service;
 
-@Repository
-public interface DigitalKeyRepository extends JpaRepository<DigitalKey, Long> {
-    Optional<DigitalKey> findByBookingIdAndActiveTrue(Long id);
-    List<DigitalKey> findByBookingGuestId(Long id);
+    public DigitalKeyController(DigitalKeyService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/{bookingId}")
+    public DigitalKey generate(@PathVariable Long bookingId) {
+        return service.generateKey(bookingId);
+    }
 }

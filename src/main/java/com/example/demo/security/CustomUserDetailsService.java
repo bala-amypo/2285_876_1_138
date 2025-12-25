@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.model.Guest;
 import com.example.demo.repository.GuestRepository;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
@@ -7,20 +8,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final GuestRepository repository;
+    private final GuestRepository guestRepository;
 
-    public CustomUserDetailsService(GuestRepository repository) {
-        this.repository = repository;
+    public CustomUserDetailsService(GuestRepository guestRepository) {
+        this.guestRepository = guestRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) {
-        var guest = repository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
 
-        return User.withUsername(guest.getEmail())
-                .password(guest.getPassword())
-                .authorities(guest.getRole())
-                .build();
+        Guest guest = guestRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found: " + email));
+
+        return new CustomUserDetails(guest);
     }
 }
