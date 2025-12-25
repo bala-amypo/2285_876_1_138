@@ -6,8 +6,7 @@ import java.time.Instant;
 @Entity
 public class KeyShareRequest {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
 
     @ManyToOne
@@ -22,7 +21,6 @@ public class KeyShareRequest {
     private Instant shareStart;
     private Instant shareEnd;
 
-    // getters & setters
     public DigitalKey getDigitalKey() { return digitalKey; }
     public void setDigitalKey(DigitalKey digitalKey) { this.digitalKey = digitalKey; }
 

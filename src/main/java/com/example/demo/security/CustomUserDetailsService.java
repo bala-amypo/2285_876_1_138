@@ -1,26 +1,26 @@
-// package com.example.demo.security;
+package com.example.demo.security;
 
-// import com.example.demo.model.Guest;
-// import com.example.demo.repository.GuestRepository;
-// import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.core.userdetails.UserDetailsService;
-// import org.springframework.security.core.userdetails.UsernameNotFoundException;
-// import org.springframework.stereotype.Service;
+import com.example.demo.repository.GuestRepository;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
 
-// @Service
-// public class CustomUserDetailsService implements UserDetailsService {
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
 
-//     private final GuestRepository guestRepository;
+    private final GuestRepository repo;
 
-//     public CustomUserDetailsService(GuestRepository guestRepository) {
-//         this.guestRepository = guestRepository;
-//     }
+    public CustomUserDetailsService(GuestRepository r) {
+        this.repo = r;
+    }
 
-//     @Override
-//     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//         Guest guest = guestRepository.findByEmail(email)
-//                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-        
-//         return GuestPrincipal.create(guest);
-//     }
-// }
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+        var g = repo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        return User.withUsername(g.getEmail())
+                .password(g.getPassword())
+                .roles(g.getRole().replace("ROLE_", ""))
+                .build();
+    }
+}

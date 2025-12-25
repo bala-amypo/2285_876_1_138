@@ -5,8 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Guest {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
 
     @Column(unique = true)
@@ -19,7 +18,6 @@ public class Guest {
     private Boolean active = true;
     private String role = "ROLE_USER";
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
