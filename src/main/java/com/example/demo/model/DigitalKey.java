@@ -4,35 +4,34 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-public class KeyShareRequest {
+public class DigitalKey {
 
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    private DigitalKey digitalKey;
+    private String keyValue;
+    private Instant issuedAt;
+    private Instant expiresAt;
+    private Boolean active = true;
 
     @ManyToOne
-    private Guest sharedBy;
+    private RoomBooking booking;
 
-    @ManyToOne
-    private Guest sharedWith;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    private Instant shareStart;
-    private Instant shareEnd;
+    public String getKeyValue() { return keyValue; }
+    public void setKeyValue(String keyValue) { this.keyValue = keyValue; }
 
-    public DigitalKey getDigitalKey() { return digitalKey; }
-    public void setDigitalKey(DigitalKey digitalKey) { this.digitalKey = digitalKey; }
+    public Instant getIssuedAt() { return issuedAt; }
+    public void setIssuedAt(Instant issuedAt) { this.issuedAt = issuedAt; }
 
-    public Guest getSharedBy() { return sharedBy; }
-    public void setSharedBy(Guest sharedBy) { this.sharedBy = sharedBy; }
+    public Instant getExpiresAt() { return expiresAt; }
+    public void setExpiresAt(Instant expiresAt) { this.expiresAt = expiresAt; }
 
-    public Guest getSharedWith() { return sharedWith; }
-    public void setSharedWith(Guest sharedWith) { this.sharedWith = sharedWith; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
-    public Instant getShareStart() { return shareStart; }
-    public void setShareStart(Instant shareStart) { this.shareStart = shareStart; }
-
-    public Instant getShareEnd() { return shareEnd; }
-    public void setShareEnd(Instant shareEnd) { this.shareEnd = shareEnd; }
+    public RoomBooking getBooking() { return booking; }
+    public void setBooking(RoomBooking booking) { this.booking = booking; }
 }
