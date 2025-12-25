@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+A
 @RestController
 @RequestMapping("/api/digital-keys")
 @Tag(name = "Digital Keys", description = "Digital key management endpoints")
