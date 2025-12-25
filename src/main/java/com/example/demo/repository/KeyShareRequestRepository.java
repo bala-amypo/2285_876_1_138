@@ -1,13 +1,11 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.KeyShareRequest;
+import com.example.demo.model.Guest;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface KeyShareRequestRepository extends JpaRepository<KeyShareRequest, Long> {
-    List<KeyShareRequest> findBySharedWithId(Long guestId);
-    List<KeyShareRequest> findBySharedById(Long guestId);
+    List<KeyShareRequest> findBySharedById(Long id);
+    List<KeyShareRequest> findBySharedWithId(Long id);
 }
