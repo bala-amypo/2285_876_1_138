@@ -1,20 +1,7 @@
-@RestController
-@RequestMapping("/api/bookings")
-public class RoomBookingController {
+package com.example.demo.repository;
 
-    private final RoomBookingService service;
+import com.example.demo.model.RoomBooking;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public RoomBookingController(RoomBookingService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public RoomBooking create(@RequestBody RoomBooking booking) {
-        return service.createBooking(booking);
-    }
-
-    @GetMapping("/guest/{id}")
-    public List<RoomBooking> byGuest(@PathVariable Long id) {
-        return service.getBookingsForGuest(id);
-    }
+public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
 }

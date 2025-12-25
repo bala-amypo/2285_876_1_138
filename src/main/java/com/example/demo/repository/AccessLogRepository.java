@@ -1,15 +1,7 @@
-@RestController
-@RequestMapping("/api/logs")
-public class AccessLogController {
+package com.example.demo.repository;
 
-    private final AccessLogService service;
+import com.example.demo.model.AccessLog;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public AccessLogController(AccessLogService service) {
-        this.service = service;
-    }
-
-    @GetMapping("/guest/{id}")
-    public List<AccessLog> logs(@PathVariable Long id) {
-        return service.getLogsForGuest(id);
-    }
+public interface AccessLogRepository extends JpaRepository<AccessLog, Long> {
 }
