@@ -4,17 +4,20 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.util.List;
+
+import java.util.Arrays;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
+
+        Server server = new Server();
+        server.setUrl("https://9174.32procr.amypo.ai/");
+        server.setDescription("Production Server");
+
         return new OpenAPI()
-                // You need to change the port as per your server
-                .servers(List.of(
-                        new Server().url("https://9174.32procr.amypo.ai/")
-                ));
-        }
+                .servers(Arrays.asList(server));
+    }
 }

@@ -7,20 +7,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final GuestRepository repo;
+    private final GuestRepository repository;
 
-    public CustomUserDetailsService(GuestRepository r) {
-        this.repo = r;
+    public CustomUserDetailsService(GuestRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        var g = repo.findByEmail(email)
+        var guest = repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
 
-        return User.withUsername(g.getEmail())
-                .password(g.getPassword())
-                .roles(g.getRole().replace("ROLE_", ""))
+        return User.withUsername(guest.getEmail())
+                .password(guest.getPassword())
+                .authorities(guest.getRole())
                 .build();
     }
 }
