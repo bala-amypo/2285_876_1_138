@@ -12,4 +12,3 @@ public interface DigitalKeyRepository extends JpaRepository<DigitalKey, Long> {
 
     List<DigitalKey> findByBookingGuestId(Long guestId);
 }
-`
