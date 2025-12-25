@@ -1,4 +1,7 @@
 package com.example.demo;
+import javax.servlet.ServletException;
+import javax.servlet.ServletConfig;
+import javax.servlet.http.HttpServlet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
