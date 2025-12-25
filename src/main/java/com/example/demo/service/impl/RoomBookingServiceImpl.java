@@ -25,7 +25,8 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     @Override
     public RoomBooking getBookingById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Room booking not found with id: " + id));
     }
 
     @Override
@@ -36,9 +37,8 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     @Override
     public RoomBooking updateBooking(Long id, RoomBooking booking) {
         RoomBooking existing = getBookingById(id);
-        existing.setCheckIn(booking.getCheckIn());
-        existing.setCheckOut(booking.getCheckOut());
-        return repository.save(existing);
+        booking.setId(existing.getId());   // preserve ID
+        return repository.save(booking);
     }
 
     @Override
