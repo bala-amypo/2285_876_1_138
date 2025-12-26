@@ -5,5 +5,6 @@ import java.util.List;
 
 public interface DigitalKeyService {
     DigitalKey generateKey(Long bookingId);
-    List<DigitalKey> getKeysByGuest(Long guestId);
+    DigitalKey getActiveKeyForBooking(Long bookingId);
+    List<DigitalKey> getKeysForGuest(Long guestId);
 }

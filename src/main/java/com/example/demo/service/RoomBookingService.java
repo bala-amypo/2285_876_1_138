@@ -5,5 +5,6 @@ import java.util.List;
 
 public interface RoomBookingService {
     RoomBooking createBooking(RoomBooking booking);
-    List<RoomBooking> getBookingsByGuest(Long guestId);
+    RoomBooking updateBooking(Long id, RoomBooking booking);
+    List<RoomBooking> getBookingsForGuest(Long guestId);
 }
