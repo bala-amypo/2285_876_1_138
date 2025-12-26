@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.model.Guest;
 import com.example.demo.repository.GuestRepository;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.repo = repo;
     }
 
-    public UserDetails loadUserByUsername(String email) {
-        var g = repo.findByEmail(email).orElseThrow();
-        return User.withUsername(g.getEmail())
-                .password(g.getPassword())
-                .roles(g.getRole())
-                .build();
+    @Override
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
+
+        Guest guest = repo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        return new GuestPrincipal(guest);
     }
 }
