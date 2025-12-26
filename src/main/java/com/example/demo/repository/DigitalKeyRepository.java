@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DigitalKeyRepository extends JpaRepository<DigitalKey, Long> {
-
     Optional<DigitalKey> findByBookingIdAndActiveTrue(Long bookingId);
-
-    @Query("SELECT dk FROM DigitalKey dk WHERE dk.booking.guest.id = :guestId")
-    List<DigitalKey> findByBookingGuestId(Long guestId);
-
+    java.util.List<DigitalKey> findByBookingGuestId(Long guestId);
 }
