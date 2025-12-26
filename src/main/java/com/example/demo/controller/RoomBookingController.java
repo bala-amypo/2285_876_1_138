@@ -16,15 +16,13 @@ public class RoomBookingController {
         this.service = service;
     }
 
-    // Create a room booking
     @PostMapping
     public RoomBooking createBooking(@RequestBody RoomBooking booking) {
         return service.createBooking(booking);
     }
 
-    // Get bookings by guest
     @GetMapping("/guest/{guestId}")
     public List<RoomBooking> getBookingsByGuest(@PathVariable Long guestId) {
-        return service.getBookingsByGuest(guestId);
+        return service.getBookingsForGuest(guestId);
     }
 }
