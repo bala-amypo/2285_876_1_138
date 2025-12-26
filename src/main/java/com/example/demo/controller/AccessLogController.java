@@ -16,6 +16,6 @@ public class AccessLogController {
 
     @PostMapping
     public AccessLog create(@RequestBody AccessLog log) {
-        return service.logAccess(log);
+        return service.createLog(log);
     }
 }

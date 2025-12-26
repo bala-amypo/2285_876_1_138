@@ -1,3 +1,12 @@
+package com.example.demo.service.impl;
+
+import com.example.demo.model.AccessLog;
+import com.example.demo.repository.AccessLogRepository;
+import com.example.demo.service.AccessLogService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class AccessLogServiceImpl implements AccessLogService {
 
@@ -7,11 +16,13 @@ public class AccessLogServiceImpl implements AccessLogService {
         this.repo = repo;
     }
 
-    public AccessLog logAccess(AccessLog log) {
+    @Override
+    public AccessLog createLog(AccessLog log) {
         return repo.save(log);
     }
 
-    public List<AccessLog> logsByGuest(Long guestId) {
+    @Override
+    public List<AccessLog> getLogsForGuest(Long guestId) {
         return repo.findByGuestId(guestId);
     }
 }
