@@ -20,43 +20,27 @@ public class DigitalKey {
     private Boolean active = true;
 
     @PrePersist
-    public void generateKey() {
+    public void generate() {
         issuedAt = Instant.now();
         expiresAt = issuedAt.plusSeconds(3600);
         keyValue = UUID.randomUUID().toString();
     }
 
-    // ✅ REQUIRED GETTERS & SETTERS
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public RoomBooking getBooking() { return booking; }
+    public void setBooking(RoomBooking booking) { this.booking = booking; }
 
-    public RoomBooking getBooking() {
-        return booking;
-    }
+    public String getKeyValue() { return keyValue; }
+    public void setKeyValue(String keyValue) { this.keyValue = keyValue; }
 
-    public void setBooking(RoomBooking booking) {
-        this.booking = booking;
-    }
+    public Instant getIssuedAt() { return issuedAt; }
+    public void setIssuedAt(Instant issuedAt) { this.issuedAt = issuedAt; }
 
-    public String getKeyValue() {
-        return keyValue;
-    }
+    public Instant getExpiresAt() { return expiresAt; }
+    public void setExpiresAt(Instant expiresAt) { this.expiresAt = expiresAt; }
 
-    public Instant getIssuedAt() {
-        return issuedAt;
-    }
-
-    public Instant getExpiresAt() {
-        return expiresAt;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
