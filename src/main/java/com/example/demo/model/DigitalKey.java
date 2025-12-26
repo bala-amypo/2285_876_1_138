@@ -1,22 +1,35 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
+@Table(name = "digital_keys")
 public class DigitalKey {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String keyValue;
+
+    @Column(nullable = false)
     private Instant issuedAt;
+
+    @Column(nullable = false)
     private Instant expiresAt;
+
     private Boolean active = true;
 
     @ManyToOne
+    @JoinColumn(name = "booking_id")
     private RoomBooking booking;
 
+    // Constructors
+    public DigitalKey() {}
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -34,4 +47,5 @@ public class DigitalKey {
 
     public RoomBooking getBooking() { return booking; }
     public void setBooking(RoomBooking booking) { this.booking = booking; }
+
 }
