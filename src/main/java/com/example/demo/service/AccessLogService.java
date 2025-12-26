@@ -4,8 +4,7 @@ import com.example.demo.model.AccessLog;
 import java.util.List;
 
 public interface AccessLogService {
-
     AccessLog createLog(AccessLog log);
-
     List<AccessLog> getLogsForGuest(Long guestId);
+    List<AccessLog> getLogsForKey(Long keyId);
 }
