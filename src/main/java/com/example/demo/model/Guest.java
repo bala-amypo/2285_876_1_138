@@ -21,7 +21,6 @@ public class Guest {
     private Boolean verified = false;
     private Boolean active = true;
     private String role;
-
     private Instant createdAt;
 
     @PrePersist

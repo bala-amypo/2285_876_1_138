@@ -21,7 +21,6 @@ public class KeyShareRequest {
 
     private Instant shareStart;
     private Instant shareEnd;
-
     private String status = "PENDING";
     private Instant createdAt;
 

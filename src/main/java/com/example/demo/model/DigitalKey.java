@@ -14,9 +14,7 @@ public class DigitalKey {
     @ManyToOne
     private RoomBooking booking;
 
-    @Column(unique = true)
     private String keyValue;
-
     private Instant issuedAt;
     private Instant expiresAt;
     private Boolean active = true;
