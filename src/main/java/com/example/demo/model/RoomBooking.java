@@ -1,27 +1,45 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "room_bookings")
 public class RoomBooking {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String roomNumber;
+
+    @Column(nullable = false)
     private LocalDate checkInDate;
+
+    @Column(nullable = false)
     private LocalDate checkOutDate;
+
     private Boolean active = true;
 
     @ManyToOne
+    @JoinColumn(name = "guest_id")
     private Guest guest;
 
     @ManyToMany
+    @JoinTable(
+        name = "room_booking_roommates",
+        joinColumns = @JoinColumn(name = "room_booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "guest_id")
+    )
     private Set<Guest> roommates = new HashSet<>();
 
+    // Constructors
+    public RoomBooking() {}
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -41,4 +59,6 @@ public class RoomBooking {
     public void setGuest(Guest guest) { this.guest = guest; }
 
     public Set<Guest> getRoommates() { return roommates; }
+    public void setRoommates(Set<Guest> roommates) { this.roommates = roommates; }
+
 }
