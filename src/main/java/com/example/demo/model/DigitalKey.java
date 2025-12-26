@@ -26,5 +26,37 @@ public class DigitalKey {
         keyValue = UUID.randomUUID().toString();
     }
 
-    // getters & setters
+    // ✅ REQUIRED GETTERS & SETTERS
+
+    public Long getId() {
+        return id;
+    }
+
+    public RoomBooking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(RoomBooking booking) {
+        this.booking = booking;
+    }
+
+    public String getKeyValue() {
+        return keyValue;
+    }
+
+    public Instant getIssuedAt() {
+        return issuedAt;
+    }
+
+    public Instant getExpiresAt() {
+        return expiresAt;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
