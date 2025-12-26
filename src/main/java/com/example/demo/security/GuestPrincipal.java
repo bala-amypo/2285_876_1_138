@@ -1,11 +1,11 @@
 package com.example.demo.security;
 
 import com.example.demo.model.Guest;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class GuestPrincipal implements UserDetails {
 
@@ -19,15 +19,17 @@ public class GuestPrincipal implements UserDetails {
         return guest.getId();
     }
 
-    public Guest getGuest() {
-        return guest;
+    public String getEmail() {
+        return guest.getEmail();
+    }
+
+    public String getRole() {
+        return guest.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(
-                (GrantedAuthority) () -> guest.getRole()
-        );
+        return List.of(new SimpleGrantedAuthority(guest.getRole()));
     }
 
     @Override
@@ -57,6 +59,6 @@ public class GuestPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return guest.getActive() == null || guest.getActive();
+        return guest.getActive();
     }
 }
