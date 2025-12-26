@@ -1,33 +1,30 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.KeyShareRequest;
-import com.example.demo.service.KeyShareRequestService;
+import com.example.demo.service.KeyShareService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/share-requests")
+@RequestMapping("/api/key-share-requests")
 public class KeyShareRequestController {
 
-    private final KeyShareRequestService service;
+    private final KeyShareService service;
 
-    public KeyShareRequestController(KeyShareRequestService service) {
+    public KeyShareRequestController(KeyShareService service) {
         this.service = service;
     }
 
+    // Share a digital key
     @PostMapping
-    public KeyShareRequest create(@RequestBody KeyShareRequest request) {
-        return service.createShareRequest(request);
+    public KeyShareRequest shareKey(@RequestBody KeyShareRequest request) {
+        return service.shareKey(request);
     }
 
-    @GetMapping("/shared-by/{id}")
-    public List<KeyShareRequest> sharedBy(@PathVariable Long id) {
-        return service.getRequestsSharedBy(id);
-    }
-
-    @GetMapping("/shared-with/{id}")
-    public List<KeyShareRequest> sharedWith(@PathVariable Long id) {
-        return service.getRequestsSharedWith(id);
+    // Get received key share requests
+    @GetMapping("/received/{guestId}")
+    public List<KeyShareRequest> getReceivedRequests(@PathVariable Long guestId) {
+        return service.receivedRequests(guestId);
     }
 }
