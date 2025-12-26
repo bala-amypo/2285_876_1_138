@@ -1,5 +1,5 @@
 @Service
-public class KeyShareServiceImpl implements KeyShareService {
+public class KeyShareRequestServiceImpl implements KeyShareRequestService {
 
     private final KeyShareRequestRepository repo;
 
