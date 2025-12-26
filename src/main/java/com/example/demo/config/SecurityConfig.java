@@ -30,15 +30,10 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/swagger-ui/**", "/api-docs/**", "/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .headers().frameOptions().disable(); // for h2 console
-        return http.build();
-    }
-
+   @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+    return http.build();
 }
