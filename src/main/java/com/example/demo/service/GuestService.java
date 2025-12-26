@@ -4,9 +4,15 @@ import com.example.demo.model.Guest;
 import java.util.List;
 
 public interface GuestService {
+
     Guest createGuest(Guest guest);
+
     Guest getGuestById(Long id);
+
     Guest updateGuest(Long id, Guest guest);
+
     void deactivateGuest(Long id);
+
     List<Guest> getAllGuests();
+
 }
