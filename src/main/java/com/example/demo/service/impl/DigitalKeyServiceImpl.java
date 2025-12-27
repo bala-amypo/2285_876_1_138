@@ -25,14 +25,20 @@ public class DigitalKeyServiceImpl implements DigitalKeyService {
 
     @Override
     public DigitalKey generateKey(Long bookingId) {
-        RoomBooking booking = bookingRepo.findById(bookingId).orElseThrow();
-        if (!booking.getActive()) {
-            throw new IllegalStateException("Booking inactive");
-        }
-        DigitalKey key = new DigitalKey();
-        key.setBooking(booking);
-        return repo.save(key);
+    RoomBooking booking = bookingRepo.findById(bookingId)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("Booking not found with id " + bookingId));
+
+    if (!Boolean.TRUE.equals(booking.getActive())) {
+        throw new IllegalStateException("Booking is inactive");
     }
+
+    DigitalKey key = new DigitalKey();
+    key.setBooking(booking);
+    key.setActive(true);
+
+    return repo.save(key);
+}
 
     @Override
     public DigitalKey getActiveKeyForBooking(Long bookingId) {
