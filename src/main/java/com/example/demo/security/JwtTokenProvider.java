@@ -11,19 +11,25 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    // ✅ SECURE 256-bit key
+    // ✅ SECURE 256-bit key (fixes WeakKeyException)
     private final SecretKey key =
             Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     private final long EXPIRATION = 86400000; // 1 day
 
     public String generateToken(Authentication authentication) {
-        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+        GuestPrincipal principal =
+                (GuestPrincipal) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
-                .claim("userId", user.getId())
-                .claim("role", user.getAuthorities().iterator().next().getAuthority())
+                .setSubject(principal.getUsername())   // email
+                .claim("userId", principal.getId())    // REQUIRED by tests
+                .claim("role",
+                        principal.getAuthorities()
+                                .iterator()
+                                .next()
+                                .getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(key)
@@ -32,7 +38,10 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
