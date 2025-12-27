@@ -25,9 +25,10 @@ public class DigitalKeyServiceImpl implements DigitalKeyService {
 
     @Override
     public DigitalKey generateKey(Long bookingId) {
+
     RoomBooking booking = bookingRepo.findById(bookingId)
-            .orElseThrow(() ->
-                    new ResourceNotFoundException("Booking not found with id " + bookingId));
+            .orElseThrow(() -> new ResourceNotFoundException(
+                    "Booking not found with id " + bookingId));
 
     if (!Boolean.TRUE.equals(booking.getActive())) {
         throw new IllegalStateException("Booking is inactive");
@@ -35,10 +36,16 @@ public class DigitalKeyServiceImpl implements DigitalKeyService {
 
     DigitalKey key = new DigitalKey();
     key.setBooking(booking);
+
+    // ✅ EXPLICITLY SET VALUES (TEST-SAFE)
+    key.setKeyValue(java.util.UUID.randomUUID().toString());
+    key.setIssuedAt(java.time.Instant.now());
+    key.setExpiresAt(key.getIssuedAt().plusSeconds(3600));
     key.setActive(true);
 
     return repo.save(key);
 }
+
 
     @Override
     public DigitalKey getActiveKeyForBooking(Long bookingId) {
